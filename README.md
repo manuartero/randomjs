@@ -1,1 +1,1 @@
-# randomjs
+# @manutero/randomjs

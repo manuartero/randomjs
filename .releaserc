@@ -1,0 +1,82 @@
+{
+    "branches": [
+        "main"
+    ],
+    "plugins": [
+        [
+            "@semantic-release/commit-analyzer",
+            {
+                "preset": "angular",
+                "releaseRules": [
+                    {
+                        "type": "refactor",
+                        "release": "patch"
+                    }
+                ]
+            }
+        ],
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                "preset": "conventionalCommits",
+                "parserOpts": {
+                    "noteKeywords": [
+                        "BREAKING CHANGE",
+                        "BREAKING CHANGES",
+                        "BREAKING"
+                    ]
+                },
+                "presetConfig": {
+                    "types": [
+                        {
+                            "type": "feat",
+                            "section": "Features"
+                        },
+                        {
+                            "type": "fix",
+                            "section": "Bug Fixes"
+                        },
+                        {
+                            "type": "chore",
+                            "section": "Internal",
+                            "hidden": false
+                        },
+                        {
+                            "type": "refactor",
+                            "section": "Internal",
+                            "hidden": false
+                        },
+                        {
+                            "type": "perf",
+                            "section": "Internal",
+                            "hidden": false
+                        },
+                        {
+                            "type": "test",
+                            "section": "Internal",
+                            "hidden": false
+                        }
+                    ]
+                }
+            }
+        ],
+        "@semantic-release/changelog",
+        [
+            "@semantic-release/npm",
+            {
+                "npmPublish": true
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets": [
+                    "package.json",
+                    "package-lock.json",
+                    "CHANGELOG.md"
+                ],
+                "message": "chore(release): ${nextRelease.version} version notes\n[skip ci]\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}
