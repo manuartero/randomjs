@@ -49,4 +49,12 @@ describe('RandomGenerator()', () => {
       expect(hits).toBeLessThanOrEqual(40500)
     })
   })
+
+  describe('random.seed', () => {
+    it('internal "seed" is accesible', () => {
+      expect(typeof random.seed).toEqual('number')
+      const random2 = RandomGenerator(42)
+      expect(random2.seed).toEqual(42)
+    })
+  })
 })
