@@ -1,6 +1,6 @@
 {
   "name": "@manutero/randomjs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "random generator utils",
   "main": "index.js",
   "scripts": {
