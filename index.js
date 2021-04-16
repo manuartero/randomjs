@@ -26,10 +26,15 @@ const RandomGenerator = seed => {
   const unit = mulberry32(actualSeed)
 
   /**
-   * @param {number} low natural number, inclusive.
-   * @param {number} high natural number, inclusive.
+   * @param {number} a natural number, inclusive.
+   * @param {number} b natural number, inclusive.
    */
-  const number = (low, high) => Math.floor(unit() * (high - low + 1) + low)
+  const number = (a, b) => {
+    if (a > b) {
+      throw new TypeError(tag('a is greater than b'))
+    }
+    return Math.floor(unit() * (b - a + 1) + a)
+  }
 
   /**
    * @param {string} percent "30%"
@@ -87,8 +92,14 @@ const RandomGenerator = seed => {
 
   /**
    * @param {Array<any>} arr
-   * @param {string?} weightKey
+   * @param {object} param1
+   * @param {string=} param1.weightKey
+   * @param {string=} param1.valueKey
    * @example
+   * ```js
+   * rn.pickOne(['a', 'b', 'c'])
+   * ```
+   *
    * ```js
    * rn.pickOne([
    *    { key: "Human", weight: 999 },
@@ -96,7 +107,7 @@ const RandomGenerator = seed => {
    * ])
    * ```
    */
-  const pickOne = (arr, weightKey = 'weight') => {
+  const pickOne = (arr, { weightKey } = { weightKey: 'weight' }) => {
     if (!arr || arr.length <= 0) {
       return null
     }
