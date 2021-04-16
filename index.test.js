@@ -13,6 +13,36 @@ describe('RandomGenerator()', () => {
     })
   })
 
+  describe('random.roll()', () => {
+    it('returns the rolling result', () => {
+      for (let i = 0; i < 10000; i++) {
+        const got = random.roll('3d6')
+        expect(got).toBeGreaterThanOrEqual(3)
+        expect(got).toBeLessThanOrEqual(18)
+      }
+    })
+    it('returns the rolling result (bis)', () => {
+      for (let i = 0; i < 10000; i++) {
+        const got = random.roll('d12')
+        expect(got).toBeGreaterThanOrEqual(1)
+        expect(got).toBeLessThanOrEqual(12)
+      }
+    })
+    it('checks the input is /<num>d<num>/', () => {
+      ;[
+        { input: '4' },
+        { input: 4 },
+        { input: '4f10' },
+        { input: null },
+        { input: undefined },
+        { input: ['3'] }
+      ].forEach(({ input }) => {
+        // @ts-ignore
+        expect(() => random.roll(input)).toThrow(TypeError)
+      })
+    })
+  })
+
   describe('random.pickOne()', () => {
     it('returns one element from the array', () => {
       for (let i = 0; i < 10000; i++) {

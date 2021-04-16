@@ -1,4 +1,9 @@
 /**
+ * @param {string} msg
+ */
+const tag = msg => `[@manutero/randomjs] ${msg}`
+
+/**
  * "Mulberry32 is a simple generator with a 32-bit state, but is extremely fast and has good quality"
  * @see https://stackoverflow.com/a/47593316/1614677
  * @param {number} seed
@@ -21,8 +26,8 @@ const RandomGenerator = seed => {
   const unit = mulberry32(actualSeed)
 
   /**
-   * @param {number} low
-   * @param {number} high
+   * @param {number} low natural number, inclusive.
+   * @param {number} high natural number, inclusive.
    */
   const number = (low, high) => Math.floor(unit() * (high - low + 1) + low)
 
@@ -30,6 +35,34 @@ const RandomGenerator = seed => {
    * @param {string} percent "30%"
    */
   const play = percent => number(1, 100) <= parseInt(percent.split('%')[0])
+
+  /**
+   * @param {string} dices 'd6' '1D6' '3d12' '2d20' ("d<num>" or "<num>d<num>")
+   */
+  const roll = dices => {
+    if (typeof dices !== 'string') {
+      throw new TypeError(tag('dices is not an string'))
+    }
+    let diceNumber
+    let sides
+    try {
+      const input = dices.toLowerCase().split('d')
+      diceNumber = parseInt(input[0]) || 1
+      sides = parseInt(input[1])
+    } catch (err) {
+      throw new TypeError(tag('dices is not formatted /<num>d<num>/'))
+    }
+    if (isNaN(diceNumber) || isNaN(sides)) {
+      throw new TypeError(tag('dices is not formatted /<num>d<num>/'))
+    }
+
+    let rolling = 0
+    for (let i = 0; i < diceNumber; i++) {
+      const n = number(1, sides)
+      rolling += n
+    }
+    return rolling
+  }
 
   /**
    * @param {Array<number>} weights
@@ -109,6 +142,7 @@ const RandomGenerator = seed => {
     normal,
     number,
     pickOne,
+    roll,
     play,
     unit,
     seed: actualSeed
