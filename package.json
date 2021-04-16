@@ -8,7 +8,8 @@
     "test": "NODE_ENV=test jest --verbose",
     "lint": "eslint . -f table .",
     "types": "tsc --build tsconfig.json",
-    "blue-ball": "npm run lint && npm run types && npm test"
+    "blue-ball": "npm run lint && npm run types && npm test",
+    "console": "cat console.js - | node -i"
   },
   "repository": {
     "type": "git",
