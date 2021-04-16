@@ -1,3 +1,15 @@
+## [0.2.0](https://github.com/manutero/randomjs/compare/v0.1.0...v0.2.0) (2021-04-16)
+
+
+### Features
+
+* **method:** random.roll('1d6') ([0fa1c16](https://github.com/manutero/randomjs/commit/0fa1c16989b672fbcacf12a7da5ef1b9688722e5))
+
+
+### Internal
+
+* **local:** npm run console ([4785c7d](https://github.com/manutero/randomjs/commit/4785c7d6703f4f001760e810c05fd156b844b1e8))
+
 ## [0.1.0](https://github.com/manutero/randomjs/compare/v0.0.0...v0.1.0) (2021-04-15)
 
 
