@@ -3,24 +3,74 @@
 
 # @manutero/randomjs
 
-> random generator utils
+> Humanized random functions.
 
 ## Installation
+
 ```bash
 npm i @manutero/randomjs
+```
+
+...or just copy one file to your project:
+
+```bash
+curl -s https://raw.githubusercontent.com/manutero/randomjs/main/index.js > {my-awesome-project}/src/random.js
 ```
 
 ## Quick Start
 
 ```js
-const {RandomGenerator} = require('@manutero/randomjs')
+const { RandomGenerator } = require("@manutero/randomjs");
 
-const random = RandomGenerator()
+const random = RandomGenerator();
+
+random.number(1, 10); // natural number between [a,b]
+// => 3
+
+random.normal(1, 10); // natural number between [a,b] considering a normal distribution
+// => 6
+
+random.roll("2d6"); // roll some dices
+// => [2, 5]
+
+random.bet(42.4); // bet with (0..100%) chance of success.
+// => false
+
+random.unit(); // random unit (0 - 1)
+// => 0.7580578515771776
+
+random.pickOne([1, 2, 3, 4, 5]); // pick one element (all elements have same weight)
+// => 1
+
+random.pickOne([
+  // pick one element (considering different weights)
+  { key: 1, weight: 1 },
+  { key: 2, weight: 1 },
+  { key: 3, weight: 9999 },
+  { key: 4, weight: 1 },
+]);
+// => {key: 3, weight: 9999}
 ```
 
-### Methods
+## Dependencies
 
-- Natural number between [a, b]
+None. Just a plain .js file wrapping `Math.random()`
+
+## Use Case
+
+Some uses cases I can think of...
+
+- you just want a natural random between 1 and 10 while you aren't concern about pure mathematical correctness.
+- you just want to pick an element from an array while not adding another dependency to your project (but copying 1 easy-to-read js file is ok)
+- you just want to roll some dices while would be great that other guy has tested that function already.
+
+> If you're looking for a mathematically correct Random generator OR cryptographically secure random numbers, try with [random-js](https://github.com/ckknight/random-js) instead
+
+## Method Detail
+
+### `.number(a:int, b: int) -> int`
+
+Natural number between [a, b] \(inclusive).
 
 ```js
 > random.number(1,10)
@@ -35,7 +85,9 @@ const random = RandomGenerator()
 10
 ```
 
-- Natural number between [a, b] considering a normal distribution
+### `.normal(a: int, b: int, {skew?: int}) -> int`
+
+natural number between [a, b] \(inclusive) considering a normal distribution.
 
 ```js
 > random.normal(1,10)
@@ -54,18 +106,43 @@ const random = RandomGenerator()
 5
 ```
 
-- Play with a percentage of success
+### `.roll(dice: str) -> [number]`
+
+Roll some dices
 
 ```js
-> random.play('40%')
+> random.roll('1d6')
+[5]
+> random.roll('2d12')
+[4, 10]
+> random.roll('3d6')
+[1, 1, 5]
+> random.roll('D3')
+[2]
+> random.roll('1D12')
+[12]
+```
+
+### `.bet(options: float) -> boolean`
+
+bet with a percentage of success (expected a number between 0 - 100)
+
+```js
+> random.bet(40.0)
 false
-> random.play('40%')
+> random.bet(40.0)
 true
-> random.play('40%')
+> random.bet(40.0)
 false
+> random.bet(0.0)
+false
+> random.bet(100.0)
+true
 ```
 
-- Unit number between (0,1)
+### `.unit() -> float`
+
+unit random between (0, 1)
 
 ```js
 > random.unit()
@@ -76,19 +153,23 @@ false
 0.028320789337158203
 ```
 
-- Pick one element from an array
+### `.pickOne(choices: [T], opts?: { weightKey>: string}) -> T`:
+
+pick one element from an array
+
 ```js
-> random.pickOne([1,2,3,4,5])
+> random.pickOne([1 ,2, 3, 4, 5])
 3
-> random.pickOne([1,2,3,4,5])
+> random.pickOne([1 ,2, 3, 4, 5])
 5
-> random.pickOne([1,2,3,4,5])
+> random.pickOne([1 ,2, 3, 4, 5])
 5
-> random.pickOne([1,2,3,4,5])
+> random.pickOne([1 ,2, 3, 4, 5])
 1
 ```
 
-- Pick one element from an array with weight
+Pick one element from an array with weight
+
 ```js
 > random.pickOne([
     { key: 1, weight: 10 },
@@ -108,12 +189,19 @@ false
 { key: 4, weight: 99999 }
 ```
 
-- Get the internal `seed`
+### `.seed`
+
+Get the internal `seed`
+
 ```js
 > random.seed
 72779816406.94533
 ```
-- Force the internal `seed`
+
+### `constructor()`
+
+Force the internal `seed`
+
 ```js
 > r1 = RandomGenerator(42)
 > r2 = RandomGenerator(42)
@@ -124,10 +212,6 @@ false
 > r1.unit() === r2.unit()
 true
 ```
-
-## Dependencies
-
-None
 
 ## License
 
