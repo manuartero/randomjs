@@ -1,3 +1,11 @@
+## [0.3.0](https://github.com/manutero/randomjs/compare/v0.2.0...v0.3.0) (2021-04-21)
+
+
+### Features
+
+* **new-method:** bet(float) -> bool ([9805b45](https://github.com/manutero/randomjs/commit/9805b454007d1d7d4f74af241c359c3663b52865))
+* number() raise exception if a > b ([fe0e059](https://github.com/manutero/randomjs/commit/fe0e059795c62385ab81242596a97cbf6eb39ccf))
+
 ## [0.2.0](https://github.com/manutero/randomjs/compare/v0.1.0...v0.2.0) (2021-04-16)
 
 
