@@ -28,18 +28,42 @@ const RandomGenerator = seed => {
   /**
    * @param {number} a natural number, inclusive.
    * @param {number} b natural number, inclusive.
+   * @param {object} param2
+   * @param {boolean} param2.round
    */
-  const number = (a, b) => {
+  const n = (a, b, { round }) => {
     if (a > b) {
       throw new TypeError(tag('a is greater than b'))
     }
-    return Math.floor(unit() * (b - a + 1) + a)
+    const response = unit() * (b - a + 1) + a
+    return round ? Math.floor(response) : response
   }
 
   /**
-   * @param {string} percent "30%"
+   * @param {number} a natural number, inclusive.
+   * @param {number} b natural number, inclusive.
    */
-  const play = percent => number(1, 100) <= parseInt(percent.split('%')[0])
+  const number = (a, b) => n(a, b, { round: true })
+
+  /**
+   * @param {number} a inclusive.
+   * @param {number} b inclusive.
+   */
+  const real = (a, b) => n(a, b, { round: false })
+
+  /**
+   * @param {string} success "30%"
+   */
+  const play = success => {
+    console.warn(tag('DEPRECATED'))
+    console.warn(tag('to be removed on v1.0.0'))
+    return number(1, 100) <= parseInt(success.split('%')[0])
+  }
+
+  /**
+   * @param {number} success chance of success as float; e.g. 42.0
+   */
+  const bet = success => real(0, 100) <= success
 
   /**
    * @param {string} dices 'd6' '1D6' '3d12' '2d20' ("d<num>" or "<num>d<num>")
@@ -61,12 +85,11 @@ const RandomGenerator = seed => {
       throw new TypeError(tag('dices is not formatted /<num>d<num>/'))
     }
 
-    let rolling = 0
+    const results = []
     for (let i = 0; i < diceNumber; i++) {
-      const n = number(1, sides)
-      rolling += n
+      results.push(number(1, sides))
     }
-    return rolling
+    return results
   }
 
   /**
@@ -154,7 +177,9 @@ const RandomGenerator = seed => {
     number,
     pickOne,
     roll,
-    play,
+    play, /* to be removed */
+    bet,
+    real,
     unit,
     seed: actualSeed
   }

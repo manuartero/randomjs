@@ -1,7 +1,12 @@
 {
   "name": "@manutero/randomjs",
   "version": "0.2.0",
-  "description": "random generator utils",
+  "description": "Humanized random functions",
+  "keywords": [
+    "random",
+    "random-generator",
+    "normal-distribution"
+  ],
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

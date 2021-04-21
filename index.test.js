@@ -18,18 +18,22 @@ describe('RandomGenerator()', () => {
   })
 
   describe('random.roll()', () => {
-    it('returns the rolling result', () => {
+    it('returns the rolling results', () => {
       for (let i = 0; i < N; i++) {
         const got = random.roll('3d6')
-        expect(got).toBeGreaterThanOrEqual(3)
-        expect(got).toBeLessThanOrEqual(18)
+        expect(got.length).toEqual(3)
+        got.forEach(n => {
+          expect(n).toBeGreaterThanOrEqual(1)
+          expect(n).toBeLessThanOrEqual(6)
+        })
       }
     })
     it('returns the rolling result (bis)', () => {
       for (let i = 0; i < N; i++) {
         const got = random.roll('D12')
-        expect(got).toBeGreaterThanOrEqual(1)
-        expect(got).toBeLessThanOrEqual(12)
+        expect(got.length).toEqual(1)
+        expect(got[0]).toBeGreaterThanOrEqual(1)
+        expect(got[0]).toBeLessThanOrEqual(12)
       }
     })
     it('checks the input is (num)+ d|D num', () => {
@@ -86,23 +90,34 @@ describe('RandomGenerator()', () => {
     })
   })
 
-  describe('random.play()', () => {
-    it('returns a hit x% of the times', () => {
+  describe('random.bet()', () => {
+    it('returns a hit x% of the times (error 1%)', () => {
       let hits = 0
-      for (let i = 0; i < N * 100; i++) {
-        if (random.play('40%')) {
+      for (let i = 0; i < N * 1000; i++) {
+        if (random.bet(40.0)) {
           hits++
         }
       }
-      // error 0.5%
-      expect(hits).toBeGreaterThanOrEqual(39500)
-      expect(hits).toBeLessThanOrEqual(40500)
+      // hits = 40.000 (error 1%)
+      expect(hits).toBeGreaterThanOrEqual(400000 - 10000)
+      expect(hits).toBeLessThanOrEqual(400000 + 10000)
+    })
+    it('returns a hit x% of the times (bis)', () => {
+      let hits = 0
+      for (let i = 0; i < N * 1000; i++) {
+        if (random.bet(99.99)) {
+          hits++
+        }
+      }
+      // hits = 99.990 (error 1%)
+      expect(hits).toBeGreaterThanOrEqual(999900 - 10000)
+      expect(hits).toBeLessThanOrEqual(999900 + 10000)
     })
     it('returns a hit for 100%', () => {
-      expect(random.play('100%')).toBe(true)
+      expect(random.bet(100.0)).toBe(true)
     })
     it('returns a loose for 0%', () => {
-      expect(random.play('0%')).toBe(false)
+      expect(random.bet(0.0)).toBe(false)
     })
   })
 
