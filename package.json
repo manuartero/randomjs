@@ -27,6 +27,10 @@
     "url": "https://github.com/manutero/randomjs/issues"
   },
   "homepage": "https://github.com/manutero/randomjs#readme",
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
