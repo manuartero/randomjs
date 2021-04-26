@@ -12,7 +12,7 @@
 npm i @manutero/randomjs
 ```
 
-...or just copy one file to your project:
+...or just copy one file to your project if you want to avoid more deps:
 
 ```bash
 curl -s https://raw.githubusercontent.com/manutero/randomjs/main/index.js > {my-awesome-project}/src/random.js
@@ -28,8 +28,8 @@ const random = RandomGenerator();
 random.number(1, 10); // natural number between [a,b]
 // => 3
 
-random.normal(1, 10); // natural number between [a,b] considering a normal distribution
-// => 6
+random.normal(-100, 100); // natural number between [a,b] considering a normal distribution
+// => -4
 
 random.roll("2d6"); // roll some dices
 // => [2, 5]
@@ -143,7 +143,7 @@ true
 
 ### `.unit() -> float`
 
-unit random between (0, 1)
+unit random between (0, 1) \(not inclusive)
 
 ```js
 > random.unit()
@@ -188,6 +188,16 @@ Pick one element from an array with weight
     { key: 5, weight: 10 }
 ])
 { key: 4, weight: 99999 }
+> random.pickOne(
+  [
+    { relevance: 10 },
+    { relevance: 10 },
+    { relevance: 10 },
+    { relevance: 99999 },
+    { relevance: 10 }
+  ],
+  { weightKey: 'relevance' })
+{ relevance: 99999 }
 ```
 
 ### `.seed`

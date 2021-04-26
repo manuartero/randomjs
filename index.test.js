@@ -127,5 +127,20 @@ describe('RandomGenerator()', () => {
       const random2 = RandomGenerator(42)
       expect(random2.seed).toEqual(42)
     })
+    it('defines the random generation', () => {
+      const r1 = RandomGenerator(42)
+      const r2 = RandomGenerator(42)
+      expect(r1.unit()).toEqual(r2.unit())
+    })
+  })
+
+  describe('random.unit()', () => {
+    it('returns the random unit (0, 1)', () => {
+      for (let i = 0; i < N; i++) {
+        const got = random.unit()
+        expect(got).toBeGreaterThan(0)
+        expect(got).toBeLessThan(1)
+      }
+    })
   })
 })
